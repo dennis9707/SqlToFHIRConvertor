@@ -1,0 +1,7 @@
+{
+  "azureFunctions.deploySubpath": "target/azure-functions/SqlToFHIR-1580902330100/",
+  "azureFunctions.projectLanguage": "Java",
+  "azureFunctions.projectRuntime": "~3",
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.preDeployTask": "package"
+}
