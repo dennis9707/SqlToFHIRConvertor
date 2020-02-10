@@ -2,35 +2,42 @@ package com.function;
 
 import java.util.Map;
 
-public class HttpGetQuery {
-    public String requestProtocol;
-    public String hostURL;
-    public String resource;
-    public String queryParameter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
-    public void setQueryParameter(Map<String,String> parameterMap){
-        StringBuilder queryParameterBuilder = new StringBuilder();
-        int count = 0;
-        for(String key : parameterMap.keySet()){
-            queryParameterBuilder.append(key + "=" + parameterMap.get(key));
-            count++;
-            if(count < parameterMap.keySet().size()){
-                queryParameterBuilder.append("&");
-            }
-        }
-        this.queryParameter = queryParameterBuilder.toString();
-    }
+public class HttpGetQuery {
+    @Expose(serialize = false, deserialize = false)
+    public String requestProtocol;
+    @Expose(serialize = false, deserialize = false)
+    public String hostURL;
+    @Expose(serialize = false, deserialize = false)
+    public String resource;
+    @Expose(serialize = false, deserialize = false)
+    public String queryParameter;
+    @Expose(serialize = true, deserialize = true)
+    public String fhirQuery;
+    @Expose(serialize = true, deserialize = true)
+    private RequestType requestType;
+
 
     public HttpGetQuery(String requestProtocol,String hostURL,String resource,Map<String,String> parameterMap){
         this.requestProtocol =  requestProtocol;
         this.hostURL = hostURL;
         this.resource = resource;
-        this.setQueryParameter(parameterMap);
+        this.queryParameter = FHIRConstructor.generateQueryParameter(parameterMap);
+        this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource + "?" + queryParameter;
+        this.requestType = RequestType.GET;
     }
 
 
     @Override
     public String toString(){
-        return requestProtocol + "://" + hostURL + "/" + resource + "?" + queryParameter;
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithoutExposeAnnotation();
+        builder.disableHtmlEscaping();
+        builder.setPrettyPrinting();
+        Gson gson = builder.create();
+        return gson.toJson(this);
     }
 }

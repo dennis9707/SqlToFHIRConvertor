@@ -1,4 +1,5 @@
 package com.function;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -12,7 +13,6 @@ public class FHIRConstructor {
             expression[0] = expression[0].trim();
             expression[1] = expression[1].trim();
             //Handle the exact match
-            System.out.println(expression[1]);
 
             // If the query parameter is string, handle the cases that contains wildcards
             if(ConvertUtil.isString(expression[1]) && !ConvertUtil.isTimestamp(expression[1])) {
@@ -54,6 +54,19 @@ public class FHIRConstructor {
             queryParameterMap.put(expression[0], expression[1]);
         }
         return queryParameterMap;
+    }
+
+    public static String generateQueryParameter(Map<String,String> parameterMap){
+        StringBuilder queryParameterBuilder = new StringBuilder();
+        int count = 0;
+        for(String key : parameterMap.keySet()){
+            queryParameterBuilder.append(key + "=" + parameterMap.get(key));
+            count++;
+            if(count < parameterMap.keySet().size()){
+                queryParameterBuilder.append("&");
+            }
+        }
+        return queryParameterBuilder.toString();
     }
 
 

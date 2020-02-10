@@ -6,13 +6,15 @@ import com.google.gson.annotations.Expose;
 
 import java.util.Map;
 
-public class HttpPostQuery {
+public class HttpPutQuery {
     @Expose(serialize = false, deserialize = false)
     private String requestProtocol;
     @Expose(serialize = false, deserialize = false)
     private String hostURL;
     @Expose(serialize = false, deserialize = false)
     private String resource;
+    @Expose(serialize = false, deserialize = false)
+    private String queryParameter;
     @Expose(serialize = true, deserialize = true)
     private String fhirQuery;
     @Expose(serialize = true, deserialize = true)
@@ -21,17 +23,18 @@ public class HttpPostQuery {
     private RequestType requestType;
 
 
-    public HttpPostQuery(String requestProtocol, String hostURL, String resource,Map<String,String> valuesMap){
+    public HttpPutQuery(String requestProtocol,String hostURL,String resource,Map<String,String> parameterMap,Map<String,String> bodyValues){
         this.requestProtocol =  requestProtocol;
         this.hostURL = hostURL;
         this.resource = resource;
-        this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource;
-        this.body = valuesMap;
-        this.requestType = RequestType.POST;
+        this.queryParameter = FHIRConstructor.generateQueryParameter(parameterMap);
+        this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource + "?" + queryParameter;
+        this.body = bodyValues;
+        this.requestType = RequestType.PUT;
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithoutExposeAnnotation();
         builder.disableHtmlEscaping();

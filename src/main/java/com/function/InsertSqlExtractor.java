@@ -1,7 +1,6 @@
 package com.function;
 
 import net.sf.jsqlparser.JSQLParserException;
-
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.insert.Insert;
@@ -27,6 +26,7 @@ public class InsertSqlExtractor {
         //Remove the brackets
         itemsList = itemsList.substring(1,itemsList.length() - 1);
         String[] valuesList = itemsList.split(",");
+        valuesMap.put("resourceType",tableNameExtractor(sqlQuery));
         for(int i = 0; i < columns.size(); i++){
             valuesList[i] = valuesList[i].trim();
             if(ConvertUtil.isString(valuesList[i])){
