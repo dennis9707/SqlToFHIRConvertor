@@ -6,7 +6,7 @@ import net.sf.jsqlparser.JSQLParserException;
 
 public class SqlToFHIR {
     public static void main(String[] args) throws JSQLParserException {
-        String sqlQuery = "SELECT * FROM patient WHERE given=jane order by country, customer";
+        String sqlQuery = "SELECT * FROM patient LIMIT 10";
 //        String sqlQuery = "INSERT INTO table_name (id, name, active)\n" +
 //                        "VALUES ('example', 'bob', 'true');";
 //        String sqlQuery = "UPDATE Person SET Address = 'Zhongshan 23', City = 'Nanjing' WHERE LastName = 'Wilson'";

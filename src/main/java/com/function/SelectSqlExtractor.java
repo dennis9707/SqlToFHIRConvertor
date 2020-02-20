@@ -38,7 +38,7 @@ public class SelectSqlExtractor {
         }
 //        order by
         List<OrderByElement> OrderByExpressions=plainSelect.getOrderByElements();
-        if(!OrderByExpressions.isEmpty()){
+        if(OrderByExpressions!=null){
             StringBuilder order = new StringBuilder("_sort=");
 
 

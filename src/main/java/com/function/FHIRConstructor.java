@@ -56,7 +56,6 @@ public class FHIRConstructor {
 
 
         }
-        System.out.println("\n hi:"+Arrays.asList(queryParameterMap));
 
         return queryParameterMap;
     }
