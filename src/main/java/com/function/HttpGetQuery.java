@@ -25,8 +25,15 @@ public class HttpGetQuery {
         this.requestProtocol =  requestProtocol;
         this.hostURL = hostURL;
         this.resource = resource;
-        this.queryParameter = FHIRConstructor.generateQueryParameter(parameterMap);
-        this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource + "?" + queryParameter;
+        if(parameterMap.isEmpty()){
+            this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource ;
+
+        }
+        else {
+            this.queryParameter = FHIRConstructor.generateQueryParameter(parameterMap);
+
+            this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource + "?" + queryParameter;
+        }
         this.requestType = RequestType.GET;
     }
 

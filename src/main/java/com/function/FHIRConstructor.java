@@ -1,5 +1,6 @@
 package com.function;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -52,7 +53,11 @@ public class FHIRConstructor {
                 }
             }
             queryParameterMap.put(expression[0], expression[1]);
+
+
         }
+        System.out.println("\n hi:"+Arrays.asList(queryParameterMap));
+
         return queryParameterMap;
     }
 
