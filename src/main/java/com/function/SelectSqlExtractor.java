@@ -19,10 +19,18 @@ public class SelectSqlExtractor {
 
 //        check for where clauses
 
-        Expression whereExpression = plainSelect.getWhere();
+        String whereExpression = plainSelect.getWhere().toString();
         if(whereExpression!=null) {
+            if(whereExpression.contains("IS NULL")){
+                whereExpression=whereExpression.replace(" IS NULL",":missing=true");
 
-            String[] whereclauses = whereExpression.toString().split("AND|OR");
+            }else if(whereExpression.contains("IS NOT NULL")){
+                whereExpression=whereExpression.replace(" IS NULL",":missing=false");
+
+            }
+
+
+            String[] whereclauses = whereExpression.split("AND|OR");
             clauses.addAll(Arrays.asList(whereclauses));
         }
         Limit limitexpression=plainSelect.getLimit();
