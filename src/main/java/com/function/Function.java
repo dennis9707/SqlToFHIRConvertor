@@ -30,40 +30,47 @@ public class Function {
 
         // Parse query parameter
         String sqlQuery = request.getQueryParameters().get("sqlQuery");
+        String fhirServer = request.getQueryParameters().get("fhirServer");
         // String name = request.getBody().orElse(query);
-        String response = "";
-        if(sqlQuery == null){
-            return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a sqlQuery on the query string or in the request body").build();
+        String response = "123";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        if(sqlQuery == null || fhirServer == null ){
+            return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a sqlQuery and a fhirServer on the query string").build();
         }
-        if(sqlQuery.toLowerCase().contains("insert")){
-            String tableName = InsertSqlExtractor.tableNameExtractor(sqlQuery);
-            Map<String, String> values = InsertSqlExtractor.valuesExtractor(sqlQuery);
-            HttpPostQuery httpPostQuery = new HttpPostQuery("https","testFhirSever.com",tableName,values);
-            response = httpPostQuery.toString();
-            System.out.println(httpPostQuery);
-        }else if(sqlQuery.toLowerCase().contains("select")){
-            String[] whereExpression = SelectSqlExtractor.parametersExtractor(sqlQuery).toArray(new String[0]);
-            String tableName = SelectSqlExtractor.tableNameExtractor(sqlQuery);
-            Map<String,String> queryParamterMap = FHIRConstructor.queryParameterConstructor(whereExpression);
-            HttpGetQuery httpGetQuery = new HttpGetQuery("https","testFhirSever.com",tableName,queryParamterMap);
-            response = httpGetQuery.toString();
-            System.out.println(httpGetQuery);
-        }else if(sqlQuery.toLowerCase().contains("update")){
-            String tableName = UpdateSqlExtractor.tableNameExtractor(sqlQuery);
-            Map<String,String> setValues = UpdateSqlExtractor.setValuesExtractor(sqlQuery);
-            String[] whereExpression = UpdateSqlExtractor.whereExpressionExtractor(sqlQuery);
-            Map<String,String> updateConditionParameters = FHIRConstructor.queryParameterConstructor(whereExpression);
-            HttpPutQuery httpPutQuery = new HttpPutQuery("https","testFhirSever.com",tableName,updateConditionParameters,setValues);
-            response = httpPutQuery.toString();
-            System.out.println(httpPutQuery);
-        }else if(sqlQuery.toLowerCase().contains("delete")){
-            String tableName = DeleteSqlExtractor.tableNameExtractor(sqlQuery);
-            String[] whereExpression = DeleteSqlExtractor.whereExpressionExtractor(sqlQuery);
-            Map<String,String> deleteConditionParameters = FHIRConstructor.queryParameterConstructor(whereExpression);
-            HttpDeleteQuery httpDeleteQuery = new HttpDeleteQuery("https","testFhirSever.com",tableName,deleteConditionParameters);
-            response = httpDeleteQuery.toString();
-            System.out.println(httpDeleteQuery);
+        try{
+            if(sqlQuery.toLowerCase().contains("insert")){
+                String tableName = InsertSqlExtractor.tableNameExtractor(sqlQuery);
+                Map<String, String> values = InsertSqlExtractor.valuesExtractor(sqlQuery);
+                HttpPostQuery httpPostQuery = new HttpPostQuery("https",fhirServer,tableName,values);
+                response = httpPostQuery.toString();
+                System.out.println(httpPostQuery);
+            }else if(sqlQuery.toLowerCase().contains("select")){
+                String[] whereExpression = SelectSqlExtractor.parametersExtractor(sqlQuery).toArray(new String[0]);
+                String tableName = SelectSqlExtractor.tableNameExtractor(sqlQuery);
+                Map<String,String> queryParamterMap = FHIRConstructor.queryParameterConstructor(whereExpression);
+                HttpGetQuery httpGetQuery = new HttpGetQuery("https",fhirServer,tableName,queryParamterMap);
+                response = httpGetQuery.toString();
+                System.out.println(httpGetQuery);
+            }else if(sqlQuery.toLowerCase().contains("update")){
+                String tableName = UpdateSqlExtractor.tableNameExtractor(sqlQuery);
+                Map<String,String> setValues = UpdateSqlExtractor.setValuesExtractor(sqlQuery);
+                String[] whereExpression = UpdateSqlExtractor.whereExpressionExtractor(sqlQuery);
+                Map<String,String> updateConditionParameters = FHIRConstructor.queryParameterConstructor(whereExpression);
+                HttpPutQuery httpPutQuery = new HttpPutQuery("https",fhirServer,tableName,updateConditionParameters,setValues);
+                response = httpPutQuery.toString();
+                System.out.println(httpPutQuery);
+            }else if(sqlQuery.toLowerCase().contains("delete")){
+                String tableName = DeleteSqlExtractor.tableNameExtractor(sqlQuery);
+                String[] whereExpression = DeleteSqlExtractor.whereExpressionExtractor(sqlQuery);
+                Map<String,String> deleteConditionParameters = FHIRConstructor.queryParameterConstructor(whereExpression);
+                HttpDeleteQuery httpDeleteQuery = new HttpDeleteQuery("https",fhirServer,tableName,deleteConditionParameters);
+                response = httpDeleteQuery.toString();
+                System.out.println(httpDeleteQuery);
+            }
+            status = HttpStatus.OK;
+        }catch(Exception e){
+            response = new ErrorMessage("There is an synatx error in your SQL query", e.toString()).toString();
         }
-        return request.createResponseBuilder(HttpStatus.OK).body(response).build();
+        return request.createResponseBuilder(status).body(response).build();
     }
 }
