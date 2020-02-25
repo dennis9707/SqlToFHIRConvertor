@@ -19,8 +19,9 @@ public class SelectSqlExtractor {
 
 //        check for where clauses
 
-        String whereExpression = plainSelect.getWhere().toString();
-        if(whereExpression!=null) {
+        Expression expression = plainSelect.getWhere();
+        if(expression!=null) {
+            String whereExpression = expression.toString();
             if(whereExpression.contains("IS NULL")){
                 whereExpression=whereExpression.replace(" IS NULL",":missing=true");
 
