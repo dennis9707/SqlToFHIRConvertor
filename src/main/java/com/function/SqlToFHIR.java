@@ -6,8 +6,9 @@ import net.sf.jsqlparser.JSQLParserException;
 
 public class SqlToFHIR {
     public static void main(String[] args) throws JSQLParserException {
-//        String sqlQuery = "SELECT * FROM patient WHERE name = 'Jane' AND _format = xml AND _pretty= true;";
-        String sqlQuery = gi ;
+       String sqlQuery = "SELECT * FROM patient WHERE name = 'Jane' AND _format = xml AND _pretty= true;";
+        // String sqlQuery = "INSERT INTO table_name (id, name, active)\n" +
+        //                 "VALUES ('example', 'bob', 'true');";
 //        String sqlQuery = "UPDATE Person SET Address = 'Zhongshan 23', City = 'Nanjing' WHERE LastName = 'Wilson'";
 //        String sqlQuery = "DELETE FROM Person WHERE LastName = 'Wilson'";
         if(sqlQuery.toLowerCase().contains("insert")){
