@@ -26,13 +26,19 @@ public class SelectSqlExtractor {
                 whereExpression=whereExpression.replace(" IS NULL",":missing=true");
 
             }else if(whereExpression.contains("IS NOT NULL")){
-                whereExpression=whereExpression.replace(" IS NULL",":missing=false");
+                whereExpression=whereExpression.replace(" IS NOT NULL",":missing=false");
 
             }
 
-
             String[] whereclauses = whereExpression.split("AND|OR");
-            clauses.addAll(Arrays.asList(whereclauses));
+            String[] trimmedArray = new String[whereclauses.length];
+            for (int i = 0; i < whereclauses.length; i++) {
+                trimmedArray[i] = whereclauses[i].replace(" ","");
+//                System.out.println(i+":"+trimmedArray[i]);
+            }
+
+
+            clauses.addAll(Arrays.asList(trimmedArray));
         }
         Limit limitexpression=plainSelect.getLimit();
         Top topexpression=plainSelect.getTop();
@@ -53,7 +59,17 @@ public class SelectSqlExtractor {
 
             for(OrderByElement ord:OrderByExpressions){
                 order.append(",");
-                order.append(ord.toString());
+                if(!ord.isAsc()){
+                    order.append("-");
+
+
+                    order.append(ord.getExpression().toString());
+
+
+                }else{
+                    order.append(ord.getExpression().toString());
+
+                }
             }
             order=order.delete(6,7);
             clauses.add(order.toString());

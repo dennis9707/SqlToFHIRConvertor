@@ -45,9 +45,9 @@ public class Function {
                 response = httpPostQuery.toString();
                 System.out.println(httpPostQuery);
             }else if(sqlQuery.toLowerCase().contains("select")){
-                String[] whereExpression = SelectSqlExtractor.parametersExtractor(sqlQuery).toArray(new String[0]);
+                String[] expression = SelectSqlExtractor.parametersExtractor(sqlQuery).toArray(new String[0]);
                 String tableName = SelectSqlExtractor.tableNameExtractor(sqlQuery);
-                Map<String,String> queryParamterMap = FHIRConstructor.queryParameterConstructor(whereExpression);
+                Map<String,String> queryParamterMap = FHIRConstructor.queryParameterConstructor(expression);
                 HttpGetQuery httpGetQuery = new HttpGetQuery("https",fhirServer,tableName,queryParamterMap);
                 response = httpGetQuery.toString();
                 System.out.println(httpGetQuery);
