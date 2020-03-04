@@ -16,9 +16,11 @@ public class ConvertUtil {
 
     public static boolean isNumber(String input){
         String integerPattern =  "^-?\\d+$";
-        String floatPattern = "^(-?\\\\d+)(\\.\\d+)?$";
+        Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");
 
-        return Pattern.matches(integerPattern,input) || Pattern.matches(floatPattern,input);
+
+
+        return Pattern.matches(integerPattern,input) || pattern.matcher(input).matches();
     }
 
     public static String quoteWrapper(String input){
