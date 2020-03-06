@@ -8,8 +8,6 @@ import java.util.Map;
 
 public class HttpDeleteQuery {
     @Expose(serialize = false, deserialize = false)
-    public String requestProtocol;
-    @Expose(serialize = false, deserialize = false)
     public String hostURL;
     @Expose(serialize = false, deserialize = false)
     public String resource;
@@ -21,12 +19,11 @@ public class HttpDeleteQuery {
     private RequestType requestType;
 
 
-    public HttpDeleteQuery(String requestProtocol, String hostURL, String resource, Map<String,String> parameterMap){
-        this.requestProtocol =  requestProtocol;
+    public HttpDeleteQuery(String hostURL, String resource, Map<String,String> parameterMap){
         this.hostURL = hostURL;
         this.resource = resource;
         this.queryParameter = FHIRConstructor.generateQueryParameter(parameterMap);
-        this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource + "?" + queryParameter;
+        this.fhirQuery =  hostURL + "/" + resource + "?" + queryParameter;
         this.requestType = RequestType.DELETE;
     }
 

@@ -37,6 +37,9 @@ public class UpdateSqlExtractor {
         Update stmt = (Update) CCJSqlParserUtil.parse(sqlQuery);
         String whereExpressionStr = stmt.getWhere().toString();
         String[] whereClauses = whereExpressionStr.split("AND|OR");
+        for (int i = 0; i < whereClauses.length; i++){
+            whereClauses[i] = whereClauses[i].trim();
+        }
         return whereClauses;
     }
 

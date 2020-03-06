@@ -7,8 +7,7 @@ import com.google.gson.annotations.Expose;
 import java.util.Map;
 
 public class HttpPutQuery {
-    @Expose(serialize = false, deserialize = false)
-    private String requestProtocol;
+
     @Expose(serialize = false, deserialize = false)
     private String hostURL;
     @Expose(serialize = false, deserialize = false)
@@ -23,12 +22,11 @@ public class HttpPutQuery {
     private RequestType requestType;
 
 
-    public HttpPutQuery(String requestProtocol,String hostURL,String resource,Map<String,String> parameterMap,Map<String,String> bodyValues){
-        this.requestProtocol =  requestProtocol;
+    public HttpPutQuery(String hostURL,String resource,Map<String,String> parameterMap,Map<String,String> bodyValues){
         this.hostURL = hostURL;
         this.resource = resource;
         this.queryParameter = FHIRConstructor.generateQueryParameter(parameterMap);
-        this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource + "?" + queryParameter;
+        this.fhirQuery =  hostURL + "/" + resource + "?" + queryParameter;
         this.body = bodyValues;
         this.requestType = RequestType.PUT;
     }

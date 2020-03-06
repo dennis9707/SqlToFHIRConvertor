@@ -7,8 +7,7 @@ import com.google.gson.annotations.Expose;
 import java.util.Map;
 
 public class HttpPostQuery {
-    @Expose(serialize = false, deserialize = false)
-    private String requestProtocol;
+
     @Expose(serialize = false, deserialize = false)
     private String hostURL;
     @Expose(serialize = false, deserialize = false)
@@ -21,11 +20,10 @@ public class HttpPostQuery {
     private RequestType requestType;
 
 
-    public HttpPostQuery(String requestProtocol, String hostURL, String resource,Map<String,String> valuesMap){
-        this.requestProtocol =  requestProtocol;
+    public HttpPostQuery( String hostURL, String resource,Map<String,String> valuesMap){
         this.hostURL = hostURL;
         this.resource = resource;
-        this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource;
+        this.fhirQuery = hostURL + "/" + resource;
         this.body = valuesMap;
         this.requestType = RequestType.POST;
     }

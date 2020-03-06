@@ -8,8 +8,6 @@ import com.google.gson.annotations.Expose;
 
 public class HttpGetQuery {
     @Expose(serialize = false, deserialize = false)
-    public String requestProtocol;
-    @Expose(serialize = false, deserialize = false)
     public String hostURL;
     @Expose(serialize = false, deserialize = false)
     public String resource;
@@ -21,18 +19,17 @@ public class HttpGetQuery {
     private RequestType requestType;
 
 
-    public HttpGetQuery(String requestProtocol,String hostURL,String resource,Map<String,String> parameterMap){
-        this.requestProtocol =  requestProtocol;
+    public HttpGetQuery(String hostURL,String resource,Map<String,String> parameterMap){
         this.hostURL = hostURL;
         this.resource = resource;
         if(parameterMap.isEmpty()){
-            this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource ;
+            this.fhirQuery = hostURL + "/" + resource ;
 
         }
         else {
             this.queryParameter = FHIRConstructor.generateQueryParameter(parameterMap);
 
-            this.fhirQuery = requestProtocol + "://" + hostURL + "/" + resource + "?" + queryParameter;
+            this.fhirQuery = hostURL + "/" + resource + "?" + queryParameter;
         }
         this.requestType = RequestType.GET;
     }
