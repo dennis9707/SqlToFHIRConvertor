@@ -18,12 +18,7 @@ public class ConvertUtil {
         String integerPattern =  "^-?\\d+$";
         Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");
 
-
-
         return Pattern.matches(integerPattern,input) || pattern.matcher(input).matches();
     }
 
-    public static String quoteWrapper(String input){
-        return "\"" + input + "\"";
-    }
 }

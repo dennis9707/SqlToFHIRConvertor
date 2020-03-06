@@ -69,7 +69,7 @@ public class Function {
             }
             status = HttpStatus.OK;
         }catch(Exception e){
-            response = new ErrorMessage("There is an synatx error in your SQL query", e.toString()).toString();
+            response = new ErrorMessage("There is an syntax error in your SQL query", e.toString()).toString();
         }
         return request.createResponseBuilder(status).body(response).build();
     }
