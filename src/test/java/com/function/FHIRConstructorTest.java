@@ -11,7 +11,7 @@ public class FHIRConstructorTest {
 
     @Test
     public void queryParameterConstructorTest() {
-        String[] whereClauses = new String[7];
+        String[] whereClauses = new String[9];
         whereClauses[0] = "firstName = 'Dennis'";
         whereClauses[1] = "age >= 25";
         whereClauses[2] = "city LIKE '%olo%'";
@@ -19,6 +19,8 @@ public class FHIRConstructorTest {
         whereClauses[4] = "lastName LIKE 'He%'";
         whereClauses[5] = "birthday > '1990-02-28'";
         whereClauses[6] = "school != 'UCL'";
+        whereClauses[7] = "height <= 190";
+        whereClauses[8] = "arriveDate < '2020-05-01'";
         Map<String,String> queryParameters = FHIRConstructor.queryParameterConstructor(whereClauses);
 //        Judge if the key contains
         assertTrue(queryParameters.containsKey("firstName:exact"));
@@ -28,6 +30,9 @@ public class FHIRConstructorTest {
         assertTrue(queryParameters.containsKey("lastName"));
         assertTrue(queryParameters.containsKey("birthday"));
         assertTrue(queryParameters.containsKey("school:not"));
+        assertTrue(queryParameters.containsKey("height"));
+        assertTrue(queryParameters.containsKey("arriveDate"));
+
 
 //        Judge if the value is in the fhir query format
         assertEquals("Dennis",queryParameters.get("firstName:exact"));
@@ -37,6 +42,8 @@ public class FHIRConstructorTest {
         assertEquals("He",queryParameters.get("lastName"));
         assertEquals("gt1990-02-28",queryParameters.get("birthday"));
         assertEquals("UCL",queryParameters.get("school:not"));
+        assertEquals("le190",queryParameters.get("height"));
+        assertEquals("lt2020-05-01",queryParameters.get("arriveDate"));
 
 
     }
